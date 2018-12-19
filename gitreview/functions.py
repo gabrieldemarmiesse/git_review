@@ -1,5 +1,6 @@
 import subprocess
 import click
+import os
 
 
 class BashError(Exception):
@@ -19,11 +20,9 @@ def cmd(string, fail_ok=False):
 
 @click.command()
 @click.argument('username_branch')
-@click.option('--repo', '-r')
 @click.option('--conflicts', is_flag=True)
-def pull_branch(username_branch, repo, conflicts):
-    if repo is None:
-        repo = 'keras'
+def pull_branch(username_branch, conflicts):
+    repo = os.path.realpath('./').split('/')[-1]
     username, branch_name = username_branch.split(':')
     cmd('git pull')
     cmd('git pull upstream master')
